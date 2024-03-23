@@ -5197,7 +5197,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6795526203030359678}
-  - component: {fileID: 6795526203030359679}
+  - component: {fileID: 3873849649362763775}
   m_Layer: 0
   m_Name: slider
   m_TagString: Untagged
@@ -5227,7 +5227,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 389.94, y: 121.4}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &6795526203030359679
+--- !u!114 &3873849649362763775
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5236,8 +5236,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 6795526203030359672}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 187e62b7f58f55644a719aa1be1ff7b3, type: 3}
+  m_Script: {fileID: 11500000, guid: d0aa73a5ff44514409afe5913828b87f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _slider: {fileID: 6795526202674280379}
+  _slider: {fileID: 6795526202386832281}
   _particleSystem: {fileID: 6795526202196715755}

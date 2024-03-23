@@ -1,14 +1,12 @@
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 using UnityEngine;
 
 
 public class TimersController : MonoBehaviour
 {
 	public static TimersController Instance;
-	[SerializeField] private List<SliderView> sliderViews;
+	[SerializeField] private List<TimerBehaviour> _timers;
 
 	private void Awake()
 	{
@@ -18,8 +16,8 @@ public class TimersController : MonoBehaviour
 
 	public void StartTimer(int timerIndex,float seconds,float secondsMax)
 	{
-		if (timerIndex >= sliderViews.Count) return;
-		sliderViews[timerIndex].InitSlider(timerIndex, seconds, secondsMax, onFinished);
+		if (timerIndex >= _timers.Count) return;
+		_timers[timerIndex].InitSlider(timerIndex, seconds, secondsMax, onFinished);
 	}
 
 	public void RestartTimers()
@@ -40,7 +38,7 @@ public class TimersController : MonoBehaviour
 
 	private void OnApplicationQuit()
 	{
-		TimersDataSaver.Instance.SaveTimersData(sliderViews);
+		TimersDataSaver.Instance.SaveTimersData(_timers);
 	}
 }
 

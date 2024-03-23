@@ -6,6 +6,9 @@ using UnityEngine;
 
 public class TimersDataSaver
 {
+	private const string TimersDataKey = "timersData";
+	private const string ExitTimeKey = "exitTime";
+	private const string timeFormat = "yyyy-MM-ddTHH:mm:ss";
 
 	private static TimersDataSaver _instance;
 	public static TimersDataSaver Instance
@@ -20,30 +23,30 @@ public class TimersDataSaver
 		}
 	}
 
-	public void SaveTimersData(List<SliderView> sliderViews)
+	public void SaveTimersData(List<TimerBehaviour> timers)
 	{
 		List<TimerData> _timers = new List<TimerData>();
-		foreach (var slider in sliderViews)
+		foreach (var timer in timers)
 		{
-			if (slider.Value <= 0) continue;
-			TimerData data = new TimerData { index = slider.Index, value = slider.Value, valueMax = slider.ValueMax};
+			if (timer.Value <= 0) continue;
+			TimerData data = new TimerData { index = timer.Index, value = timer.Value, valueMax = timer.ValueMax};
 			_timers.Add(data);
 		}
 		string dataAsString = JsonConvert.SerializeObject(_timers);
 		PlayerPrefs.DeleteAll();
-		PlayerPrefs.SetString("timersData", dataAsString);
-		PlayerPrefs.SetString("exitTime", DateTimeNowToString());
+		PlayerPrefs.SetString(TimersDataKey, dataAsString);
+		PlayerPrefs.SetString(ExitTimeKey, DateTimeNowToString());
 		Debug.Log("Saved");
 	}
 
 	public DateTime GetExitTime()
 	{
-		return StringToDateTime(PlayerPrefs.GetString("exitTime"));
+		return StringToDateTime(PlayerPrefs.GetString(ExitTimeKey));
 	}
 
 	public List<TimerData> LoadTimersData()
 	{
-		string dataAsString = PlayerPrefs.GetString("timersData");
+		string dataAsString = PlayerPrefs.GetString(TimersDataKey);
 		if (string.IsNullOrEmpty(dataAsString))
 		{
 			return new List<TimerData>();
@@ -53,7 +56,6 @@ public class TimersDataSaver
 		return timersData;
 	}
 
-	string timeFormat = "yyyy-MM-ddTHH:mm:ss";
 	public string DateTimeNowToString()
 	{
 		return DateTime.Now.ToString(timeFormat);

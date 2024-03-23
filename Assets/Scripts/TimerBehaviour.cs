@@ -3,9 +3,13 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SliderView : MonoBehaviour
+public class TimerBehaviour : MonoBehaviour
 {
-    [SerializeField] private Slider _slider;
+	public float Value => _value;
+	public float ValueMax => _valueMax;
+	public int Index => _timerIndex;
+
+	[SerializeField] private Slider _slider;
 	[SerializeField] private ParticleSystem _particleSystem;
 
 	private Action<int> _onSliderFinished;
@@ -13,6 +17,8 @@ public class SliderView : MonoBehaviour
 	private float _valueMax;
 	private bool _jobActive = false;
 	private int _timerIndex;
+
+
 
 	public void InitSlider(int timerIndex, float seconds, float secondsMax, Action<int> onSliderFinished)
     {
@@ -22,14 +28,11 @@ public class SliderView : MonoBehaviour
 		_jobActive = true;
 		_timerIndex = timerIndex;
 
-		StartCoroutine(TickSlider());
+		StartCoroutine(Tick());
 	}
-	public float Value => _value;
-	public float ValueMax => _valueMax;
-	public int Index => _timerIndex;
-	
 
-	IEnumerator TickSlider()
+	
+	IEnumerator Tick()
 	{
 		while (_jobActive)
 		{
@@ -41,10 +44,10 @@ public class SliderView : MonoBehaviour
 
 	void UpdateVisual()
 	{
-		float sliderValue = _value / _valueMax;
-		_slider.value = sliderValue;
+		float timerValue = _value / _valueMax;
+		_slider.value = timerValue;
 
-		if (sliderValue <= 0)
+		if (timerValue <= 0)
 		{
 			_particleSystem.Emit(50);
 			_jobActive = false;
