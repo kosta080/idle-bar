@@ -1,56 +1,56 @@
+using Newtonsoft.Json;
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
+
 
 public class TimersController : MonoBehaviour
 {
-    [SerializeField] private List<SliderView> sliderViews;
-
-	private string slidersDataKey = "slidersdata";
-
-
-	public void StartTimer(int timerIndex,float seconds)
-	{
-		if (timerIndex >= sliderViews.Count) return;
-		PlayerPrefs.SetFloat(slidersDataKey + timerIndex.ToString(), seconds);
-		sliderViews[timerIndex].InitSlider(timerIndex, seconds, onFinished);
-	}
-
-	public void RestartTimers()
-	{
-
-	}
-
-	private void onFinished(int timerIndex) 
-	{
-		Debug.Log("done " + timerIndex);
-		PlayerPrefs.DeleteKey(slidersDataKey + timerIndex);
-	}
-
 	public static TimersController Instance;
+	[SerializeField] private List<SliderView> sliderViews;
+
+
+	
 	private void Awake()
 	{
 		if (Instance == null)
 			Instance = this;
 	}
 
+	public void StartTimer(int timerIndex,float seconds,float secondsMax)
+	{
+		if (timerIndex >= sliderViews.Count) return;
+		//_timers.Add(new TimerData {index = timerIndex, value = seconds});
+	
+		sliderViews[timerIndex].InitSlider(timerIndex, seconds, secondsMax, onFinished);
+	}
+
+	public void RestartTimers()
+	{
+		DateTime exitTime = TimersDataSaver.Instance.GetExitTime();
+		DateTime now = DateTime.Now;
+		TimeSpan timeDifference = now - exitTime;
+		float deltaTimeInSeconds = (float)timeDifference.TotalSeconds;
+
+		List <TimerData> timersData = TimersDataSaver.Instance.LoadTimersData();
+		foreach (TimerData timer in timersData)
+		{
+			Debug.Log($"data for restart {timer.index} {timer.value} {timer.value}");
+			StartTimer(timer.index, timer.value - deltaTimeInSeconds, timer.valueMax);
+		}
+		
+	}
+
+	private void onFinished(int timerIndex) 
+	{
+		Debug.Log("done " + timerIndex);
+	}
+
 	private void OnApplicationQuit()
 	{
-		foreach (var slider in sliderViews) 
-		{
-			float timerValue = slider.GetCurentValue();
-			float timerIndex = slider.GetCurentValue();
-			PlayerPrefs.SetFloat(slidersDataKey + timerIndex.ToString(), timerValue);
-		}
+		TimersDataSaver.Instance.SaveTimersData(sliderViews);
 	}
 }
 
-
-[Serializable]
-public class SliderData
-{
-	public int index;
-	public float value;
-}
 

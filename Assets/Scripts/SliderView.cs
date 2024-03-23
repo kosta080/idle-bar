@@ -14,9 +14,9 @@ public class SliderView : MonoBehaviour
 	private bool _jobActive = false;
 	private int _timerIndex;
 
-	public void InitSlider(int timerIndex, float seconds, Action<int> onSliderFinished)
+	public void InitSlider(int timerIndex, float seconds, float secondsMax, Action<int> onSliderFinished)
     {
-		_valueMax = seconds;
+		_valueMax = secondsMax;
 		_value = seconds;
 		_onSliderFinished = onSliderFinished;
 		_jobActive = true;
@@ -28,7 +28,11 @@ public class SliderView : MonoBehaviour
 	{
 		return _value;
 	}
-	public int SetIndex()
+	public float GetCurentValueMax()
+	{
+		return _valueMax;
+	}
+	public int GetIndex()
 	{
 		return _timerIndex;
 	}
