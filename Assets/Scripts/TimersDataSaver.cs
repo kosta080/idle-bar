@@ -20,28 +20,20 @@ public class TimersDataSaver
 		}
 	}
 
-	public void SaveValue(string key, float val)
-    {
-		PlayerPrefs.SetFloat(key, val);
-	}
-
 	public void SaveTimersData(List<SliderView> sliderViews)
 	{
 		List<TimerData> _timers = new List<TimerData>();
 		foreach (var slider in sliderViews)
 		{
-			if (slider.GetCurentValue() <= 0) return;
-			TimerData data = new TimerData { 
-				index = slider.GetIndex(), 
-				value = slider.GetCurentValue(),
-				valueMax = slider.GetCurentValueMax()
-			};
+			if (slider.Value <= 0) continue;
+			TimerData data = new TimerData { index = slider.Index, value = slider.Value, valueMax = slider.ValueMax};
 			_timers.Add(data);
 		}
 		string dataAsString = JsonConvert.SerializeObject(_timers);
+		PlayerPrefs.DeleteAll();
 		PlayerPrefs.SetString("timersData", dataAsString);
 		PlayerPrefs.SetString("exitTime", DateTimeNowToString());
-		Debug.Log($"timersData saved {dataAsString}");
+		Debug.Log("Saved");
 	}
 
 	public DateTime GetExitTime()

@@ -24,18 +24,10 @@ public class SliderView : MonoBehaviour
 
 		StartCoroutine(TickSlider());
 	}
-	public float GetCurentValue()
-	{
-		return _value;
-	}
-	public float GetCurentValueMax()
-	{
-		return _valueMax;
-	}
-	public int GetIndex()
-	{
-		return _timerIndex;
-	}
+	public float Value => _value;
+	public float ValueMax => _valueMax;
+	public int Index => _timerIndex;
+	
 
 	IEnumerator TickSlider()
 	{
