@@ -1,17 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
+using Timers;
 using UnityEngine;
 
 public class UiController : MonoBehaviour
 {
-
+	[SerializeField] private TimersController _timersController;
 	public void HandleClickStart5sec()
     {
-		TimersController.Instance.StartTimer(0, 10, 10);
+	    _timersController.StartTimer(0, 10, 10);
 	}
 
 	public void HandleClickStart30sec()
 	{
-		TimersController.Instance.StartTimer(1, 30, 30);
+		_timersController.StartTimer(1, 30, 30);
 	}
 }
