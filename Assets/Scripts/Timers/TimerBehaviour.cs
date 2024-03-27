@@ -19,9 +19,7 @@ namespace Timers
 		private float _valueMax;
 		private bool _jobActive = false;
 		private int _timerIndex;
-
-
-
+		
 		public void InitSlider(int timerIndex, float seconds, float secondsMax, Action<int> onSliderFinished)
 		{
 			_valueMax = secondsMax;
